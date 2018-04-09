@@ -15,11 +15,6 @@ struct SerializedFileHeader
 
 LittleEndian();
 
-enum <uint32>  BuildTargetPlatform 
-{
-    kBuildNoTargetPlatform = -2,
-};
-
 struct SerializedType
 {
     ClassID classID;

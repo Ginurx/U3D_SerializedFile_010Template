@@ -1,0 +1,119 @@
+
+enum <uint32> BuildTarget
+{
+    	/// <summary>
+	///   <para>Build a macOS standalone (Intel 64-bit).</para>
+	/// </summary>
+	StandaloneOSX = 2,
+	//[Obsolete("Use StandaloneOSX instead (UnityUpgradable) -> StandaloneOSX", true)]
+	StandaloneOSXUniversal = 2,
+	/// <summary>
+	///   <para>Build a macOS Intel 32-bit standalone. (This build target is deprecated)</para>
+	/// </summary>
+	//[Obsolete("StandaloneOSXIntel has been removed in 2017.3")]
+	StandaloneOSXIntel = 4,
+	/// <summary>
+	///   <para>Build a Windows standalone.</para>
+	/// </summary>
+	StandaloneWindows,
+	/// <summary>
+	///   <para>Build a web player. (This build target is deprecated. Building for web player will no longer be supported in future versions of Unity.)</para>
+	/// </summary>
+	//[Obsolete("WebPlayer has been removed in 5.4", true)]
+	WebPlayer,
+	/// <summary>
+	///   <para>Build a streamed web player.</para>
+	/// </summary>
+	//[Obsolete("WebPlayerStreamed has been removed in 5.4", true)]
+	WebPlayerStreamed,
+	/// <summary>
+	///   <para>Build an iOS player.</para>
+	/// </summary>
+	iOS = 9,
+	//[Obsolete("PS3 has been removed in >=5.5")]
+	PS3,
+	//[Obsolete("XBOX360 has been removed in 5.5")]
+	XBOX360,
+	/// <summary>
+	///   <para>Build an Android .apk standalone app.</para>
+	/// </summary>
+	Android = 13,
+	/// <summary>
+	///   <para>Build a Linux standalone.</para>
+	/// </summary>
+	StandaloneLinux = 17,
+	/// <summary>
+	///   <para>Build a Windows 64-bit standalone.</para>
+	/// </summary>
+	StandaloneWindows64 = 19,
+	/// <summary>
+	///   <para>WebGL.</para>
+	/// </summary>
+	WebGL,
+	/// <summary>
+	///   <para>Build an Windows Store Apps player.</para>
+	/// </summary>
+	WSAPlayer,
+	/// <summary>
+	///   <para>Build a Linux 64-bit standalone.</para>
+	/// </summary>
+	StandaloneLinux64 = 24,
+	/// <summary>
+	///   <para>Build a Linux universal standalone.</para>
+	/// </summary>
+	StandaloneLinuxUniversal,
+	//[Obsolete("Use WSAPlayer with Windows Phone 8.1 selected")]
+	WP8Player,
+	/// <summary>
+	///   <para>Build a macOS Intel 64-bit standalone. (This build target is deprecated)</para>
+	/// </summary>
+	//[Obsolete("StandaloneOSXIntel64 has been removed in 2017.3")]
+	StandaloneOSXIntel64,
+	//[Obsolete("BlackBerry has been removed in 5.4")]
+	BlackBerry,
+	/// <summary>
+	///   <para>Build a Tizen player.</para>
+	/// </summary>
+	Tizen,
+	/// <summary>
+	///   <para>Build a PS Vita Standalone.</para>
+	/// </summary>
+	PSP2,
+	/// <summary>
+	///   <para>Build a PS4 Standalone.</para>
+	/// </summary>
+	PS4,
+	PSM,
+	/// <summary>
+	///   <para>Build a Xbox One Standalone.</para>
+	/// </summary>
+	XboxOne,
+	//[Obsolete("SamsungTV has been removed in 2017.3")]
+	SamsungTV,
+	/// <summary>
+	///   <para>Build to Nintendo 3DS platform.</para>
+	/// </summary>
+	N3DS,
+	/// <summary>
+	///   <para>Build a Wii U standalone.</para>
+	/// </summary>
+	WiiU,
+	/// <summary>
+	///   <para>Build to Apple's tvOS platform.</para>
+	/// </summary>
+	tvOS,
+	/// <summary>
+	///   <para>Build a Nintendo Switch player.</para>
+	/// </summary>
+	Switch,
+	/// <summary>
+	///   <para>OBSOLETE: Use iOS. Build an iOS player.</para>
+	/// </summary>
+	//[Obsolete("Use iOS instead (UnityUpgradable) -> iOS", true)]
+	iPhone = -1,
+	//[Obsolete("BlackBerry has been removed in 5.4")]
+	BB10 = -1,
+	//[Obsolete("Use WSAPlayer instead (UnityUpgradable) -> WSAPlayer", true)]
+	MetroPlayer = -1,
+	NoTarget = -2
+};

@@ -1,0 +1,62 @@
+#include "BuildTarget.bt"
+#include "ClassID.bt"
+
+BigEndian();
+
+struct SerializedFileHeader
+{
+    uint32 metadataSize <format=hex>;
+    uint32 fileSize <format=hex>; 
+    uint32 version;
+    uint32 dataOffset <format=hex>;
+    ubyte endianess;
+    ubyte reserved[3];
+} header;
+
+LittleEndian();
+
+struct TypeTreeNode
+{
+    uint16 unknown;
+    ubyte level;
+    ubyte unknown2;
+    
+    byte padding[20];
+};
+
+struct SerializedType
+{
+    ClassID classID;
+    ubyte unknownFlag;
+    int16 unknown;
+
+    if (classID == 114)
+    {
+        uint64 monoBehaviourHashLow <format = hex>;
+        uint64 monoBehaviourHashHigh <format = hex>;
+    }
+
+    uint64 typeHashLow <format = hex>;
+    uint64 typeHashHigh <format = hex>;
+    
+    // type tree
+    int nodeCount <format = hex>;
+    int nameLength <format = hex>;
+
+    TypeTreeNode nodes[nodeCount];
+    char typeName[nameLength];
+};
+
+struct SerializedFileMetadata
+{
+    string unityVersion;
+    BuildTarget targetPlatform;
+    byte hasTypeDefinition;
+    int32 typeCount;
+
+    SerializedType serializedTypes[typeCount] <optimize = false>;
+
+    int32 objectCount;
+
+} metadata;
+

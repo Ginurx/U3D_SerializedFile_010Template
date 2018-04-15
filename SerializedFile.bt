@@ -1,5 +1,6 @@
 #include "BuildTarget.bt"
 #include "ClassID.bt"
+#include "CommonTypeStringTable.bt"
 
 BigEndian();
 
@@ -15,13 +16,59 @@ struct SerializedFileHeader
 
 LittleEndian();
 
-struct TypeTreeNode
+string FindStringInNameTable(int64 table, uint32 offset)
 {
-    uint16 unknown;
+    local string result = ReadString(table + offset);
+    return result;
+}
+
+struct TypeTreeNode(int64 nameTable)
+{
+    uint16 version;
     ubyte level;
-    ubyte unknown2;
+    ubyte isArray;
+
+    uint32 typeStrOffset        : 31;
+    uint32 isCommonTypeStr      : 1;
+
+    local string typeStr;
+    if (isCommonTypeStr != 0)
+    {
+        typeStr = FindCommonTypeString(typeStrOffset);
+    }
+    else
+    {
+        typeStr = FindStringInNameTable(nameTable, typeStrOffset);
+    }
     
-    byte padding[20];
+
+    uint32 nameStrOffset        : 31;
+    uint32 isCommonNameStr      : 1;
+
+    local string nameStr;
+    if (isCommonTypeStr != 0)
+    {
+        nameStr = FindCommonTypeString(nameStrOffset);
+    }
+    else
+    {
+        nameStr = FindStringInNameTable(nameTable, nameStrOffset);
+    }
+    
+    int size;
+    int index;
+    int metaFlag;
+};
+
+struct TypeTree (int nodeCount, int nameTableSize)
+{
+    local int64 nameTableAddr <format = hex> = FTell() + nodeCount * 24;
+
+    // This is an array of children types.
+    // Index of 0 presents self
+
+    TypeTreeNode nodes(nameTableAddr)[nodeCount] <optimize=false>;
+    char nameTable[nameTableSize];
 };
 
 struct SerializedType
@@ -41,10 +88,9 @@ struct SerializedType
     
     // type tree
     int nodeCount <format = hex>;
-    int nameLength <format = hex>;
+    int nameTableSize <format = hex>;
 
-    TypeTreeNode nodes[nodeCount];
-    char typeName[nameLength];
+    TypeTree typeTree(nodeCount, nameTableSize);
 };
 
 struct SerializedFileMetadata

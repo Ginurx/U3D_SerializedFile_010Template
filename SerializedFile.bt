@@ -46,7 +46,7 @@ struct TypeTreeNode(int64 nameTable)
     uint32 isCommonNameStr      : 1;
 
     local string nameStr;
-    if (isCommonTypeStr != 0)
+    if (isCommonNameStr != 0)
     {
         nameStr = FindCommonTypeString(nameStrOffset);
     }
@@ -73,11 +73,11 @@ struct TypeTree (int nodeCount, int nameTableSize)
 
 struct SerializedType
 {
-    ClassID classID;
+    ClassID persistentTypeId;
     ubyte unknownFlag;
     int16 unknown;
 
-    if (classID == 114)
+    if (persistentTypeId == 114 || persistentTypeId == -1)
     {
         uint64 monoBehaviourHashLow <format = hex>;
         uint64 monoBehaviourHashHigh <format = hex>;
@@ -93,6 +93,41 @@ struct SerializedType
     TypeTree typeTree(nodeCount, nameTableSize);
 };
 
+struct ObjectInfo
+{
+    // Start with verison 14, object stream is 4 bytes algined
+    local int64 alignedAddr = FTell();
+    alignedAddr = (alignedAddr + 3) & (~(3));
+    FSeek(alignedAddr);
+
+    int64 pathID;       // Local File ID
+    int32 byteStart;
+    int32 byteSize;
+    int32 typeID;
+};
+
+struct UnkownData
+{
+    local int64 alignedAddr = FTell();
+    alignedAddr = (alignedAddr + 3) & (~(3));
+    FSeek(alignedAddr);
+
+    int32 unkownDword;
+    int64 unkownQword;
+};
+
+struct UnityGUID
+{
+    uint32 data[4];
+};
+
+struct FileIdentifier
+{
+    string unusedStr;
+    UnityGUID guid;
+    string pathName;
+};
+
 struct SerializedFileMetadata
 {
     string unityVersion;
@@ -103,6 +138,14 @@ struct SerializedFileMetadata
     SerializedType serializedTypes[typeCount] <optimize = false>;
 
     int32 objectCount;
+
+    ObjectInfo objects[objectCount] <optimize = false>;
+    
+    int32 unkownCount;
+    UnkownData unknownData[unkownCount] <optimize = false>;
+
+    int32 externalCount;
+    FileIdentifier externals[externalCount] <optimize = false>;
 
 } metadata;
 

@@ -104,6 +104,7 @@ string FindCommonTypeString(uint offset)
 	if (offset == 1057) return "int2_storage";
 	if (offset == 1070) return "int3_storage";
 	if (offset == 1083) return "BoundsInt";
+    if (offset == 1093) return "m_CorrespondingSourceObject";
 
     return "Unknown";
 }

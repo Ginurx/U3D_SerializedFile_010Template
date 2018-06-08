@@ -108,11 +108,12 @@ struct ObjectInfo
 
 struct UnkownData
 {
+    int32 unkownDword;
+
     local int64 alignedAddr = FTell();
     alignedAddr = (alignedAddr + 3) & (~(3));
     FSeek(alignedAddr);
 
-    int32 unkownDword;
     int64 unkownQword;
 };
 
